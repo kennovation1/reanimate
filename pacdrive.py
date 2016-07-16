@@ -103,10 +103,10 @@ class PacDrive:
     def updatePacDrive(self, board):
         ''' Send a command to update the output state of an attached PacDrive '''
         msg = [0x00, 0x00, 0x00, 0x00]
-        msg[2] = self.state[board][0]
-        msg[3] = self.state[board][1]
+        msg[3] = self.state[board][0] # LSB
+        msg[2] = self.state[board][1] # MSB
         if self.dryRun:
-            print 'dryRun: 0x%02x 0x%02x' % (msg[3], msg[2])
+            print 'dryRun: 0x%02x 0x%02x' % (msg[2], msg[3])
         else:
             assert self.devs[board].ctrl_transfer(UM_REQUEST_TYPE, UM_REQUEST, PACDRIVE_VALUE, PACDRIVE_INDEX, msg) == PACDRIVE_MESG_LENGTH
 
@@ -293,7 +293,11 @@ if __name__ == '__main__':
     logLevel = logging.INFO
     logging.basicConfig(format=logFormat, level=logLevel)
 
-    unittest.main()
+    # unittest.main()
+    pd = PacDrive(dryRun=False)
+    pd.initializeAllPacDrives()
+    pd.updatePattern('ALL_OFF')
+    pd.updatePin(1, 1, True)
 
 # TODO:
 # Create utility to set a pattern, delay and then set another pattern until list of patterns is complete
