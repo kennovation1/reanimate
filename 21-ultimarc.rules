@@ -1,0 +1,10 @@
+# This seems to work. Note that it does not have an ACTION=="add" match. This caused problems at one
+# point during testing, but I'm not sure if that was because of using 'sudo udevadm trigger' instead of a full
+# reboot. To test again, try:
+# ATTRS{idVendor}=="d209", ATTRS{idProduct}=="1500", SUBSYSTEMS=="usb", ACTION=="add", MODE="0666", GROUP="plugdev", PROGRAM="/usr/bin/touch /tmp/matched.usb.d209.1500.add"
+# Handy utilities:
+# lsusb
+# sudo lsusb -v
+# Look at /etc/udev/rules.d/
+# Look at /dev/input/
+ATTRS{idVendor}=="d209", ATTRS{idProduct}=="1500", SUBSYSTEMS=="usb", MODE="0666", GROUP="plugdev"
