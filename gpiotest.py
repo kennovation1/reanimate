@@ -1,6 +1,5 @@
 # Run this as root...
 # sudo python gpiotest.py
-# Seems to work without sudo.
 
 import gpio
 import time
@@ -10,8 +9,8 @@ logger = logging.getLogger()
 logger.setLevel(logging.WARNING)
 
 gpio.setup(2, gpio.IN)
-gpio.setup(3, gpio.OUT)
-gpio.setup(4, gpio.OUT)
+gpio.setup(3, gpio.OUT, initial=gpio.LOW)
+gpio.setup(4, gpio.OUT, initial=gpio.LOW)
 val = gpio.read(2) # To read value from gpio 2
 gpio.set(3, 1) # To write 1 to gpio 3
 gpio.set(4, 0) # To write 0 to gpio 4
@@ -23,7 +22,8 @@ print 'Reading forever, everyone 0.5 seconds...'
 
 gpio.setup(inpin, gpio.IN)
 
-while True:
+while False:
     value = gpio.read(inpin)
     print value
     time.sleep(0.5)
+
