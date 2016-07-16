@@ -1,55 +1,29 @@
-#!/home/pi/.virtualenvs/pacdrive/bin/python
+# Run this as root...
+# sudo python gpiotest.py
+# Seems to work without sudo.
+
+import gpio
 import time
+import logging
 
-print 'Enter GPIO number:'
-gpio = raw_input()
-print 'Enter number of blinks'
-blinks = raw_input()
+logger = logging.getLogger()
+logger.setLevel(logging.WARNING)
 
-#Make sure resource is available
-try:
-    f= open ('/sys/class/gpio/unexport','w')
-    f.write(str(gpio))
-    f.close()
-except IOError as e:
-    lol=0
+gpio.setup(2, gpio.IN)
+gpio.setup(3, gpio.OUT)
+gpio.setup(4, gpio.OUT)
+val = gpio.read(2) # To read value from gpio 2
+gpio.set(3, 1) # To write 1 to gpio 3
+gpio.set(4, 0) # To write 0 to gpio 4
 
-#Export pin number
-f= open ('/sys/class/gpio/export','w')
-f.write(str(gpio))
-f.close()
+print 'Enter gpio pin to use as input: '
+inraw = raw_input()
+inpin = int(inraw)
+print 'Reading forever, everyone 0.5 seconds...'
 
-#Define Pin Direction as Output for LED
+gpio.setup(inpin, gpio.IN)
 
-path = '/sys/class/gpio/gpio' + gpio + '/direction'
-f= open (path,'w')
-f.write('out')
-f.close()
-
-#Loop through LED 'ON' and 'OFF' for the number of times specified
-i=0;
-path = '/sys/class/gpio/gpio' + gpio + '/value'
-while(i<int(blinks)):
-    
-    f= open (path,'w')
-    f.write('1')
-    f.close()
-
+while True:
+    value = gpio.read(inpin)
+    print value
     time.sleep(0.5)
-
-    f= open (path,'w')
-    f.write('0')
-    f.close()
-
-    time.sleep(0.5)
-    i+=1
-
-#Unexport Pin 
-f= open ('/sys/class/gpio/unexport','w')
-f.write(str(gpio))
-f.close()
-print 'Cool blinking, huh?'
-print 'Have a nice day!'
-print 'Best wishes, Semillero ADT'
-
-
