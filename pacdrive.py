@@ -293,11 +293,7 @@ if __name__ == '__main__':
     logLevel = logging.INFO
     logging.basicConfig(format=logFormat, level=logLevel)
 
-    # unittest.main()
-    pd = PacDrive(dryRun=False)
-    pd.initializeAllPacDrives()
-    pd.updatePattern('ALL_OFF')
-    pd.updatePin(1, 1, True)
+    unittest.main()
 
 # TODO:
 # Create utility to set a pattern, delay and then set another pattern until list of patterns is complete
