@@ -3,10 +3,15 @@ import time
 
 GPIO.setmode(GPIO.BCM)
 
-GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+pin = 22
+GPIO.setup(pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
+i = 0
 while True:
-    input_state = GPIO.input(18)
+    input_state = GPIO.input(pin)
     if input_state == False:
-        print('Button Pressed')
-        time.sleep(0.2)
+        print('1 Pressed ' + str(i))
+    else:
+        print('0 Released ' + str(i))
+    i += 1
+    time.sleep(0.2)

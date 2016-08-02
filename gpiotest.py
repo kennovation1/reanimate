@@ -6,7 +6,7 @@ import time
 import logging
 
 logger = logging.getLogger()
-logger.setLevel(logging.WARNING)
+#logger.setLevel(logging.WARNING)
 
 gpio.setup(2, gpio.IN)
 gpio.setup(3, gpio.OUT, initial=gpio.LOW)
