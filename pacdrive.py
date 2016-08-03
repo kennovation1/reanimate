@@ -142,47 +142,66 @@ def mapLabelToBoardAndPin(label):
     '''
     Map a text label for a lamp to the board and pin that the is wired to that lamp
     Returns a tuple (boardId, pin)
+
+    Label suffix meaning is the lamps within the labeled switch. (Buzzer is a special case).
+    Looking at front of legend switch, the lamps are labeled as:
+    A B
+    D C
+
+    Therefore, top row is suffix -AB, bottom is -CD, non divided is usually wired with diagnonals
+    and therefore with a suffix of -CD.
     '''
-    # TODO: Flesh out this mapping. 
-    # Add lamp suffix to label to indicate which lamps to turn on
-    # For example: top row of A4 => A4AB, bottom row => A4CD, diagonals => A4AC, all => A4 or A4ABCD
     labelMap = {
-            'A1': (1, 2),
-            'A2': (3, 4),
-            'A3': (0, 0),
-            'A4': (0, 0),
-            'A5': (0, 0),
-            'A6': (0, 0),
-            'A7': (0, 0),
-            'A8': (0, 0),
-            'A9': (0, 0),
-            'A10': (0, 0),
-            'A11': (0, 0),
-            'A12': (0, 0),
-            'A13': (0, 0),
-            'A14': (0, 0),
-            'A15': (0, 0),
-            'A16': (0, 0),
-            'A17': (0, 0),
-            'A18': (0, 0),
-            'A19': (0, 0),
-            'A20': (0, 0),
-            'A21': (0, 0),
-            'A22': (0, 0),
-            'A23': (0, 0),
-            'A24': (0, 0),
-            'A25': (0, 0),
-            'A26': (0, 0),
-            'A27': (0, 0),
-            'A28': (0, 0),
-            'A29': (0, 0),
-            'A30': (0, 0),
-            'A31': (0, 0),
-            'A32': (0, 0),
-            'A33': (0, 0),
-            'A34': (0, 0),
-            'A35': (0, 0),
-            'A36': (0, 0)
+            'DS1-Negative': (4,16),
+            'A2-AC': (1,12),
+            'A5-AB': (3,15),
+            'A5-CD': (3,16),
+            'A6-AB': (4,1),
+            'A6-CD': (4,2),
+            'A7-AB': (4,3),
+            'A7-CD': (4,4),
+            'A8-AB': (4,5),
+            'A8-CD': (4,6),
+            'A9-AB': (1,13),
+            'A9-CD': (1,14),
+            'A10-AB': (1,1),
+            'A10-CD': (2,1),
+            'A11-AB': (1,2),
+            'A11-CD': (2,2),
+            'A12-CD': (2,3),
+            'A13-AB': (1,4),
+            'A13-CD': (2,4),
+            'A14-AB': (1,5),
+            'A14-CD': (2,5),
+            'A15-AB': (1,6),
+            'A15-CD': (2,6),
+            'A16-AB': (1,7),
+            'A16-CD': (2,8),
+            'A17-AC': (2,7),
+            'A18-AB': (1,8),
+            'A18-CD': (2,9),
+            'A19-AB': (1,9),
+            'A19-CD': (2,10),
+            'A20-AB': (1,10),
+            'A20-CD': (2,11),
+            'A21-AB': (1,11),
+            'A21-CD': (2,12),
+            'A22-AB': (2,13),
+            'A22-CD': (2,14),
+            'A23-AC': (3,1),
+            'A24-AC': (3,2),
+            'A25-AC': (3,3),
+            'A26-AC': (3,4),
+            'A27-AC': (3,5),
+            'A28-AC': (3,6),
+            'A29-AC': (3,7),
+            'A30-AC': (3,8),
+            'A31-AC': (3,9),
+            'A32-AC': (3,10),
+            'A33-AC': (3,11),
+            'A34-AC': (3,12),
+            'A35-AC': (3,13),
+            'A36-AC': (3,14)
             }
     return labelMap[label]
 
