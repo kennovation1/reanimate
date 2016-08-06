@@ -12,11 +12,9 @@ import time
 import random
 
 # TODO: Onyl supports board number 1 for now
-PinList = [1,2,4,5,6,7,8,9,10,11,12,13,14] # Current list of functioning lamps
+PinList = [1,2,3,4,5,6,7,8,9,10,11,12,13,14] # Current list of functioning lamps on boards 1 and 2
 # 3 is NC at the moment
 # 15,16 are NC
-
-Board = 1
 
 def processUserInput():
     print '''
@@ -31,6 +29,7 @@ def processUserInput():
         chase           Rotate lamps
         rand            Random pattern
     '''
+    board = 1
     while True:
         line = raw_input()
         cleanLine = line.rstrip(' \r\n\t')
@@ -49,7 +48,7 @@ def processUserInput():
             print 'Quitting'
             break
         elif command == 'on':
-            handleOnCommand(pinStrs)
+            handleOnCommand(board, pinStrs)
         elif command == 'off':
             pd.updatePattern('ALL_OFF')
         elif command == 'even':
@@ -57,46 +56,46 @@ def processUserInput():
         elif command == 'odd':
             pd.updatePattern('ODD_ONLY')
         elif command == 'chase':
-            handleChase()
+            handleChase(board)
         elif command == 'rand':
-            handleRandom()
+            handleRandom(board)
         elif command == 'board':
-            Board = int(pinStrs[0]) # TODO: Fix overloading of pinsStrs var. Check board range.
-            print 'Active board now: ' + str(Board)
+            board = int(pinStrs[0]) # TODO: Fix overloading of pinsStrs var. Check board range.
+            print 'Active board now: ' + str(board)
         else:
             print 'Unknown command'
 
-def handleOnCommand(pinStrs):
+def handleOnCommand(board, pinStrs):
     if pinStrs and len(pinStrs) > 0:
         for pin in pinStrs:
-            pd.updatePin(Board, int(pin), True)
+            pd.updatePin(board, int(pin), True)
     else:
         pd.updatePattern('ALL_ON')
 
-def handleRandom():
+def handleRandom(board):
     lastPin = 1
 
     for i in range(100):
         pin = random.choice(PinList)
         state = random.choice([True, True, False])
-        pd.updatePin(Board, pin, state)
+        pd.updatePin(board, pin, state)
         time.sleep(0.25)
-    pd.updatePattern('ALL_ON')
+    # pd.updatePattern('ALL_ON')
     time.sleep(2)
     pd.updatePattern('ALL_OFF')
     print 'Rand done'
 
-def handleChase():
+def handleChase(board):
     lastPin = 1
 
     for i in range(4):
         for pin in PinList:
-            pd.updatePin(Board, lastPin, False)
-            pd.updatePin(Board, pin, True)
+            pd.updatePin(board, lastPin, False)
+            pd.updatePin(board, pin, True)
             lastPin = pin
             time.sleep(0.25)
-    pd.updatePin(Board, lastPin, False)
-    pd.updatePattern('ALL_ON')
+    pd.updatePin(board, lastPin, False)
+    # pd.updatePattern('ALL_ON')
     time.sleep(2)
     pd.updatePattern('ALL_OFF')
     print 'Chase done'
