@@ -1,29 +1,24 @@
-# First upload - everything is a TODO
-For now, this is just a dump of files.
+# Raw notes for now
 
-I need to delete cruft and organize what I've got.
+## Key files
+* auxcontrol.py - Main application to operate Auxiliary Control panel
 
-Key files are:
+Old test files:
 * testaux.py, pacdrive.py - Drives lamps
-  * Need to verify all lamps and wire 28V to all
-  * Need to replace more bulbs
 * readsw.py  - Reads all switches wired to RPi GPIO
-  * All switches now work
 * spitest.py - Reads ADC for R1-R4, A3, A4, S1, S2, S3
-  * All analog inputs now work
 
 # Git notes:
 ```
 git remote add origin https://github.com/kennovation1/reanimate.git
 git push -u origin master
 ```
+I need to look up how to avoid typing my git password each time I push.
 
 ## TODOs
 - [ ] Add a license file (what type?)
-- [ ] Delete junk files that are no longer needed
 - [ ] Create a sane directory structure and file naming
 - [ ] Create proper packages that are separated from application code 
-- [ ] *** Something is wrong with board. Passing board 2 for updatePin only updates board 1. Update all works.
 - [ ] Add EXPECTED_BOARDS in addition to MAX_BOARDS?
 - [ ] Put mapping into a json file
 
@@ -33,11 +28,12 @@ git push -u origin master
 * Set up WiFi UI via menu (top bar)
 * Set up preferences (keyboard, timezone, etc.) via UI menu
 * ifconfig to find IP
+
 #### STATIC IP
-    To set a static IP, I went to the router's advanced setting, IP address distribution and found
-    device for RPi and clicked box that said make this static. Therefore the address is statically 
-    192.168.1.13 now. No need to do anything else. One router screen now shows static, but another shows
-    dynamic. I'm not sure if that's a problem or just a refresh issue.
+To set a static IP, I went to the router's advanced setting, IP address distribution and found
+device for RPi and clicked box that said make this static. Therefore the address is statically 
+192.168.1.13 now. No need to do anything else. One router screen now shows static, but another shows
+dynamic. I'm not sure if that's a problem or just a refresh issue.
 
 ssh pi@192.168.1.13
 password: raspberry
@@ -53,18 +49,14 @@ Add the following to Mac .bash_profile
 alias sshrpi='ssh -i ~/.ssh/rpi pi@192.168.1.13'
 alias scprpi='scp -i ~/.ssh/rpi'
 
-mkdir ken
-cd ken
-mkdir pacdrive
-cd pacdrive
-# Don't do this: mkvirtualenv pacdrive
-# Don't do this: workon pacdrive
+mkdir reanimate
+cd reanimate
 git init
 On Mac, add to .bash_profile:
 alias sshrpi='ssh -i ~/.ssh/rpi pi@192.168.1.13'
 alias scprpi='scp -i ~/.ssh/rpi'
+
 On RPi added to .bashrc:
-# KLR Added
 alias l='ls -FC'
 alias ll='ls -l'
 alias la='ls -la'
@@ -122,7 +114,7 @@ sudo pip install rpi.gpio
 http://raspberrypi-aa.github.io/session3/spi.html
 This doesn't quite work yet since lsmod | grep spi shows nothing...
 Well, spitest.py is working fine. Come back and review this.
-cd ~/ken
+cd ~/reanimate
 git clone git://github.com/doceme/py-spidev
 cd py-spidev
 sudo python setup.py install
@@ -130,7 +122,7 @@ sudo python setup.py install
 
 ### PacDrive
 ```
-cd ~/ken/pacdrive
+cd ~/reanimate
 To dump USB information
     python printAllUSBInfo.py
 ```
