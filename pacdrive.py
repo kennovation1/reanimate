@@ -93,6 +93,9 @@ class PacDrive:
         for i in range(len(self.state)):
             self.state[i][0] = value
             self.state[i][1] = value
+
+        # Block the buzzer from being set by this function (must use updatePin)
+        self.state[3][1] &= 0x7f
         self.updateAllPacDrives()
 
     def updateAllPacDrives(self):
