@@ -156,7 +156,10 @@ def mapLabelToBoardAndPin(label):
     '''
     labelMap = {
             'DS1-Negative': (4,16),
+            'A1-AC': (2,15),
             'A2-AC': (1,12),
+            'A3-CD': (4,7),
+            'A4-CD': (4,8),
             'A5-AB': (3,15),
             'A5-CD': (3,16),
             'A6-AB': (4,1),

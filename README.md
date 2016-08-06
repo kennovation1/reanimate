@@ -11,9 +11,12 @@ Old test files:
 # Git notes:
 ```
 git remote add origin https://github.com/kennovation1/reanimate.git
+Since I didn't set up with ssh initially:
+git remote set-url origin git@github.com:kennovation1/reanimate.git
 git push -u origin master
+
+See below for ssh key set up
 ```
-I need to look up how to avoid typing my git password each time I push.
 
 ## TODOs
 - [ ] Add a license file (what type?)
@@ -40,6 +43,7 @@ password: raspberry
 
 ### General Linux environment set up
 ```
+On Mac:
 ssh-keygen -t rsa
 cp id_rsa.pub authorized_keys
 Copy private file to Mac ~/.ssh/rpi
@@ -48,6 +52,12 @@ From Mac: ssh -i ~/.ssh/rpi pi@192.168.1.13
 Add the following to Mac .bash_profile
 alias sshrpi='ssh -i ~/.ssh/rpi pi@192.168.1.13'
 alias scprpi='scp -i ~/.ssh/rpi'
+
+On RPi:
+ssh-keygen -t rsa -b 4096 -C "kenrobbins@ieee.org for GitHub"
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_rsa
+Add public key to github account
 
 mkdir reanimate
 cd reanimate
