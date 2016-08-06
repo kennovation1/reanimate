@@ -11,23 +11,25 @@ import logging
 import time
 import random
 
-# TODO: Onyl supports board number 1 for now
-PinList = [1,2,3,4,5,6,7,8,9,10,11,12,13,14] # Current list of functioning lamps on boards 1 and 2
-# 3 is NC at the moment
-# 15,16 are NC
+PinList = [
+        [0],
+        [1,2,3,4,5,6,7,8,9,10,11,12,13,14],       # Board 1
+        [1,2,3,4,5,6,7,8,9,10,11,12,13,14],       # Board 2
+        [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16], # Board 3
+        [1,2,3,4,5,6]                             # Board 4. Pin 16 is buzzer
+    ]
 
 def processUserInput():
     print '''
       Commands:
         q               Quit
-        on              Turn all on
-        on <pinlist>    Turn on all pins in the comma separated list (no spaces)
+        on <pinlist>    Turn on all pins in the comma separated list (no spaces). All on if no args.
         board <board>   Set active board (for 'on' command)
-        off             Turn all off
+        off <pinlist>   Turn of pins in list. All off if no args.
         even            Turn on even pins
         odd             Turn on odd pins
-        chase           Rotate lamps
-        rand            Random pattern
+        chase <boardlist>  Rotate lamps in the specified boards in board list order. 1,2,3,4 if no args.
+        rand <boardlist>   Random pattern in the specified boards in board. All boards if no args.
     '''
     board = 1
     while True:
@@ -40,63 +42,77 @@ def processUserInput():
         command = parts[0]
         print 'Command: %s' % (command)
         if len(parts) == 2: # Assume a comma-separated list of pins
-            pinStrs = parts[1].split(',')
+            args = parts[1].split(',')
         else:
-            pinStrs = None
+            args = None
 
         if command == 'q':
             print 'Quitting'
             break
-        elif command == 'on':
-            handleOnCommand(board, pinStrs)
         elif command == 'off':
-            pd.updatePattern('ALL_OFF')
+            handleOnOffCommand(board, args, False)
+        elif command == 'on' or command == 'o':
+            handleOnOffCommand(board, args, True)
         elif command == 'even':
             pd.updatePattern('EVEN_ONLY')
         elif command == 'odd':
             pd.updatePattern('ODD_ONLY')
         elif command == 'chase':
-            handleChase(board)
+            handleChase(args)
         elif command == 'rand':
-            handleRandom(board)
-        elif command == 'board':
-            board = int(pinStrs[0]) # TODO: Fix overloading of pinsStrs var. Check board range.
+            handleRandom(args)
+        elif command == 'board' or command == 'b':
+            board = int(args[0])
             print 'Active board now: ' + str(board)
         else:
             print 'Unknown command'
 
-def handleOnCommand(board, pinStrs):
-    if pinStrs and len(pinStrs) > 0:
-        for pin in pinStrs:
-            pd.updatePin(board, int(pin), True)
+def handleOnOffCommand(board, args, state):
+    if args and len(args) > 0:
+        for pin in args:
+            pd.updatePin(board, int(pin), state)
     else:
-        pd.updatePattern('ALL_ON')
+        if state:
+            pd.updatePattern('ALL_ON')
+        else:
+            pd.updatePattern('ALL_OFF')
 
-def handleRandom(board):
+def handleRandom(args):
     lastPin = 1
 
+    if args and len(args) > 0:
+        boards = args
+    else:
+        boards = [1,2,3,4]
+
     for i in range(100):
-        pin = random.choice(PinList)
         state = random.choice([True, True, False])
+        board = int(random.choice(boards))
+        pin = random.choice(PinList[board])
         pd.updatePin(board, pin, state)
         time.sleep(0.25)
-    # pd.updatePattern('ALL_ON')
-    time.sleep(2)
     pd.updatePattern('ALL_OFF')
     print 'Rand done'
 
-def handleChase(board):
+def handleChase(args):
+    lastBoard = 1
     lastPin = 1
 
+    if args and len(args) > 0:
+        boards = args
+    else:
+        boards = [1,2,3,4]
+
     for i in range(4):
-        for pin in PinList:
-            pd.updatePin(board, lastPin, False)
-            pd.updatePin(board, pin, True)
-            lastPin = pin
-            time.sleep(0.25)
-    pd.updatePin(board, lastPin, False)
-    # pd.updatePattern('ALL_ON')
-    time.sleep(2)
+        for b in boards:
+            board = int(b)
+            for pin in PinList[board]:
+                pd.updatePin(lastBoard, lastPin, False)
+                pd.updatePin(board, pin, True)
+                lastBoard = board
+                lastPin = pin
+                time.sleep(0.25)
+    pd.updatePin(lastBoard, lastPin, False)
     pd.updatePattern('ALL_OFF')
     print 'Chase done'
 
