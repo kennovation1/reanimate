@@ -3,6 +3,8 @@ Data structures that define the specific panel configuration
 '''
 
 '''
+Digial switch map
+
 Pairs of GPIO signal #, switch ID label
 
 S1, S2, S3, A3, A4 are read via the ADC and SPI interface and not here.
@@ -37,6 +39,33 @@ switchMap = {
         27:  'A33'
         }
 
+'''
+Analog device map
+    Channels 1-4 for pots R1-R4. Covers full range from 0-1023 (0-3.3V) with bettern than 0.01V resolution.
+    Channel 5 is LAMPTEST/Auxiliary Control. Pressed = 0.0V, open = 3.3V
+    Channel 6 is LAMPTEST/Antenna Control. Pressed = 0.0V, open = 3.3V
+    Channel 7 is PUSH TO CALL. Pressed = 0.0V, open = 3.3V
+    Channel 8 is Emergency Off and Key. These are wired in an R2R ladder to produce the following:
+        S1/Key | S2/Emergency | Volts
+        -------+--------------+------
+        OFF    | Pressed      | 0.0
+        OFF    | Not Pressed  | 1.65
+        ON     | Pressed      | 1.98
+        ON     | Not Pressed  | 2.48
+
+Pairs of channel and device label. Value will contain a raw level.
+'''
+analogMap = {
+        0: 'R1',
+        1: 'R2',
+        2: 'R3',
+        3: 'R4',
+        4: 'A3',
+        5: 'A4',
+        6: 'S3',
+        7: 'S1S2'
+        }
+
 ########
 # MAIN #
 ########
@@ -44,3 +73,8 @@ if __name__ == '__main__':
     print 'switchMap:'
     for pin in switchMap.keys():
         print '{}:\t{}'.format(pin, switchMap[pin])
+
+    print '\nanalogMap:'
+    for channel in analogMap:
+        print '{}:\t{}'.format(channel, analogMap[channel])
+

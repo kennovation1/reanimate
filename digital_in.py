@@ -3,6 +3,8 @@ Read the state of all switches that are connected to RPi GPIO digital inputs.
 '''
 import RPi.GPIO as GPIO
 from panel_config import switchMap
+import time
+from colors import bcolors
 
 class digitalIn:
     def __init__(self):
@@ -27,14 +29,24 @@ class digitalIn:
         return state
 
     def printState(self, state):
-        print 'DIGITAL INPUT SWITCH STATE:'
-        for switch in state.keys():
-            print '{} {}'.format(switch, state[switch])
+        line  = ''
+        keys = state.keys()
+        keys.sort()
+        for switch in keys:
+            if state[switch]:
+                line += ' ' + bcolors.BOLD + bcolors.FAIL + switch.upper() + bcolors.ENDC
+            else:
+                line += ' ' + switch.lower()
+        print line
 
 ########
 # MAIN #
 ########
 if __name__ == '__main__':
-    dig = digitalIn()
-    state = dig.getState()
-    dig.printState(state)
+    delay = 0.1 # Delay between readings
+
+    while True:
+        dig = digitalIn()
+        state = dig.getState()
+        dig.printState(state)
+        time.sleep(delay)

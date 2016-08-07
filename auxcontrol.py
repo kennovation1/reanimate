@@ -7,7 +7,7 @@ state of the corresponding switch. However, a list of Python function may be ass
 to any input.
 '''
 import digital_in
-#import analog_in
+import analog_in
 #import digital_out
 import time
 
@@ -27,9 +27,12 @@ class PanelController:
     def getAnalogState(self):
         '''
         Read the state of all analog inputs that are connected to the RPi SPI from the ADC.
-        For the analog inputs that are really digital switches, normalize these to look like digital switches.
+        For the analog inputs that are really digital switches, normalize these to look like digital switches and
+        add to digital state
         '''
-        #self.analogState = analog_in.getState()
+        self.analogState = analog_in.getState()
+
+        self.convertAnalogSwitchStates()
 
     def detectEdges(self):
         '''
@@ -68,7 +71,9 @@ panel = PanelController()
 #while True:
 for i in range(1):
     panel.getDigitalState()
+    print panel.digitalState # KLR: temp debug
     panel.getAnalogState()
+    print panel.analogState # KLR: temp debug
     panel.detectEdges()
     panel.doActions()
 

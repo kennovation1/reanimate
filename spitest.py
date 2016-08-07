@@ -48,7 +48,8 @@ while True:
         level = ReadChannel(channel)
         volts = ConvertVolts(level, 2)
  
-        print str(volts) + '\t',
+        print str(level) + '\t',
+        #print str(volts) + '\t',
         #print '{}\t{}\t{}'.format(channel, level, volts)
        
     print ''
