@@ -44,9 +44,9 @@ class digitalIn:
 ########
 if __name__ == '__main__':
     delay = 0.1 # Delay between readings
+    dig = digitalIn()
 
     while True:
-        dig = digitalIn()
         state = dig.getState()
         dig.printState(state)
         time.sleep(delay)

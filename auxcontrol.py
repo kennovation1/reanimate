@@ -19,6 +19,7 @@ class PanelController:
         self.analogState = {}
         self.edges = {}
         self.digitalIn = digital_in.digitalIn()
+        self.analogIn = analog_in.analogIn()
 
     def getDigitalState(self):
         ''' Read the state of all switches that are connected to RPi GPIO digital inputs '''
@@ -27,12 +28,9 @@ class PanelController:
     def getAnalogState(self):
         '''
         Read the state of all analog inputs that are connected to the RPi SPI from the ADC.
-        For the analog inputs that are really digital switches, normalize these to look like digital switches and
-        add to digital state
+        For the analog inputs that are really digital switches, normalize these to look like digital switches.
         '''
-        self.analogState = analog_in.getState()
-
-        self.convertAnalogSwitchStates()
+        self.analogState = self.analogIn.getState()
 
     def detectEdges(self):
         '''
@@ -68,12 +66,9 @@ class PanelController:
 delay = 0.1
 panel = PanelController()
 
-#while True:
-for i in range(1):
+while True:
     panel.getDigitalState()
-    print panel.digitalState # KLR: temp debug
     panel.getAnalogState()
-    print panel.analogState # KLR: temp debug
     panel.detectEdges()
     panel.doActions()
 

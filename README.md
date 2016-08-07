@@ -2,6 +2,8 @@
 
 ## Key files
 * auxcontrol.py - Main application to operate Auxiliary Control panel
+* digit_in.py - Used by auxcontrol.py. Run by itself tests all switch inputs
+* analog_in.py - Used by auxcontrol.py. Run by itself tests all analog inputs (pots and switches using ADC)
 
 Old test files:
 * testaux.py, pacdrive.py - Drives lamps
