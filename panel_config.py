@@ -46,6 +46,9 @@ Analog device map
     Channel 6 is LAMPTEST/Antenna Control. Pressed = 0.0V, open = 3.3V
     Channel 7 is PUSH TO CALL. Pressed = 0.0V, open = 3.3V
     Channel 8 is Emergency Off and Key. These are wired in an R2R ladder to produce the following:
+                 Emergency off is a normally closed switch, but is still reported as press/released like any other
+                 (once decoded).
+                 The On/Off key switch is a stateful toggle (since it has two stable positions)
         S1/Key | S2/Emergency | Volts
         -------+--------------+------
         OFF    | Pressed      | 0.0
@@ -64,6 +67,39 @@ analogMap = {
         5: 'A4',
         6: 'S3',
         7: 'S1S2'
+        }
+
+'''
+Define the actions to take when a button is pressed or released
+'''
+actionMap = {
+        'S1': 'noop',
+        'S2': 'noop',
+        'S3': 'noop',
+        'A1': 'toggleLight',
+        'A2': 'toggleLight',
+        'A3': 'toggleLight',
+        'A4': 'toggleLight',
+        'A5': 'toggleLight',
+        'A6': 'toggleLight',
+        'A7': 'toggleLight',
+        'A8': 'toggleLight',
+        'A9': 'toggleLight',
+        'A22': 'toggleLight',
+        'A23': 'toggleLight',
+        'A24': 'toggleLight',
+        'A25': 'toggleLight',
+        'A26': 'toggleLight',
+        'A27': 'toggleLight',
+        'A28': 'toggleLight',
+        'A29': 'toggleLight',
+        'A30': 'toggleLight',
+        'A31': 'toggleLight',
+        'A32': 'toggleLight',
+        'A33': 'toggleLight',
+        'A34': 'toggleLight',
+        'A35': 'toggleLight',
+        'A36': 'toggleLight'
         }
 
 ########

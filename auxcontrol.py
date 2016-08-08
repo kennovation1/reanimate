@@ -8,13 +8,13 @@ to any input.
 '''
 import digital_in
 import analog_in
-#import digital_out
 import time
+import copy
+from panel_config import actionMap
 
 class PanelController:
     def __init__(self):
-        self.oldState = {}
-        self.currentState = {}
+        self.lastState = None
         self.digitalState = {}
         self.analogState = {}
         self.edges = {}
@@ -32,24 +32,25 @@ class PanelController:
         '''
         self.analogState = self.analogIn.getState()
 
+        # Copy the analog switch states to the digital state dict
+        for switch in ['A3','A4','S1','S2','S3']:
+            self.digitalState[switch] = self.analogState[switch]
+
     def detectEdges(self):
         '''
         Compare the current switch state to the previous and create a list of
         edge transitions (button pressed or released).
 
-        Returns a dictionary of switch labels and edges.
+        Returns a dict indexed by switch ID where the values is:
+            True for an up edge (pressed)
+            False for a down edge (released)
         '''
-        print 'DETECT EDGES'
-
-        '''
-        Returns a dict indexed by swith ID where the values is:
-        0 if nothing changes since last poll iteration
-        1 for an up edge
-        -1 for a down edge
-        edges = {}
-        for switch in newState.keys():
-            edges[switch] = newState[switch] - oldState[switch]
-        '''
+        self.edges = {}
+        if self.lastState is not None:
+            for switch in self.digitalState.keys():
+                if self.digitalState[switch] != self.lastState[switch]:
+                    self.edges[switch] = self.digitalState[switch]
+        self.lastState = copy.copy(self.digitalState)
 
     def doActions(self):
         '''
@@ -57,7 +58,9 @@ class PanelController:
         Action should return immediately or spawn an asynchronous activity.
         For each analog input (not switches), execute an appropriate update action.
         '''
-        print 'DO ACTIONS'
+        for switch in self.edges.keys():
+            print 'Action for switch={} pressedNotRelease={} action={}'.format(switch,
+                    self.edges[switch], actionMap[switch])
 
 ########
 # MAIN #
@@ -65,6 +68,8 @@ class PanelController:
 
 delay = 0.1
 panel = PanelController()
+
+# TODO KLR: Set initial lamps based on absolute state. In particular, set on and off base on key switch.
 
 while True:
     panel.getDigitalState()
