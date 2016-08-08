@@ -73,39 +73,41 @@ analogMap = {
 Define the actions to take when a button is pressed or released
 '''
 actionMap = {
-        'S1': 'noop',
-        'S2': 'noop',
-        'S3': 'noop',
-        'A1': 'toggleLight',
-        'A2': 'toggleLight',
-        'A3': 'toggleLight',
-        'A4': 'toggleLight',
-        'A5': 'toggleLight',
-        'A6': 'toggleLight',
-        'A7': 'toggleLight',
-        'A8': 'toggleLight',
-        'A9': 'toggleLight',
-        'A22': 'toggleLight',
-        'A23': 'toggleLight',
-        'A24': 'toggleLight',
-        'A25': 'toggleLight',
-        'A26': 'toggleLight',
-        'A27': 'toggleLight',
-        'A28': 'toggleLight',
-        'A29': 'toggleLight',
-        'A30': 'toggleLight',
-        'A31': 'toggleLight',
-        'A32': 'toggleLight',
-        'A33': 'toggleLight',
-        'A34': 'toggleLight',
-        'A35': 'toggleLight',
-        'A36': 'toggleLight'
+        'S1': {'action': 'noop'},
+        'S2': {'action': 'noop'},
+        'S3': {'action': 'noop'},
+        'A1': {'action': 'momentaryLamp', 'lampId': 'A1-AC'},
+        'A2': {'action': 'momentaryLamp', 'lampId': 'A1-AC'},
+        'A3': {'action': 'noop'},
+        'A4': {'action': 'noop'},
+        'A5': {'action': 'noop'},
+        'A6': {'action': 'noop'},
+        'A7': {'action': 'noop'},
+        'A8': {'action': 'noop'},
+        'A9': {'action': 'noop'},
+        'A22': {'action': 'noop'},
+        'A23': {'action': 'toggleLamp', 'lampId': 'A23-AC'},
+        'A24': {'action': 'toggleLamp', 'lampId': 'A24-AC'},
+        'A25': {'action': 'toggleLamp', 'lampId': 'A25-AC'},
+        'A26': {'action': 'toggleLamp', 'lampId': 'A26-AC'},
+        'A27': {'action': 'toggleLamp', 'lampId': 'A27-AC'},
+        'A28': {'action': 'toggleLamp', 'lampId': 'A28-AC'},
+        'A29': {'action': 'toggleLamp', 'lampId': 'A29-AC'},
+        'A30': {'action': 'toggleLamp', 'lampId': 'A30-AC'},
+        'A31': {'action': 'toggleLamp', 'lampId': 'A31-AC'},
+        'A32': {'action': 'toggleLamp', 'lampId': 'A32-AC'},
+        'A33': {'action': 'toggleLamp', 'lampId': 'A33-AC'},
+        'A34': {'action': 'toggleLamp', 'lampId': 'A34-AC'},
+        'A35': {'action': 'toggleLamp', 'lampId': 'A35-AC'},
+        'A36': {'action': 'toggleLamp', 'lampId': 'A36-AC'}
         }
 
 ########
 # MAIN #
 ########
 if __name__ == '__main__':
+    import json
+
     print 'switchMap:'
     for pin in switchMap.keys():
         print '{}:\t{}'.format(pin, switchMap[pin])
@@ -114,3 +116,6 @@ if __name__ == '__main__':
     for channel in analogMap:
         print '{}:\t{}'.format(channel, analogMap[channel])
 
+    print '\nactionMap:'
+    for switch in actionMap:
+        print '{}:\t{}'.format(switch, json.dumps(actionMap[switch]))

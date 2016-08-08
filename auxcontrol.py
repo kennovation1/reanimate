@@ -11,6 +11,15 @@ import analog_in
 import time
 import copy
 from panel_config import actionMap
+import json
+
+# TODO KLR: Move this elsewhere...
+def mometaryLamp(lampId, state):
+    print 'LAMP momentary: lamp={} state={}'.format(lampId, state)
+
+def toggleLamp(lampId):
+    print 'LAMP toggle: {}'.format(lampId)
+
 
 class PanelController:
     def __init__(self):
@@ -60,13 +69,19 @@ class PanelController:
         '''
         for switch in self.edges.keys():
             print 'Action for switch={} pressedNotRelease={} action={}'.format(switch,
-                    self.edges[switch], actionMap[switch])
+                    self.edges[switch], json.dumps(actionMap[switch]))
+            actionDetails = actionMap[switch]
+            action = actionDetails['action']
+            if action == 'toggleLamp':
+                toggleLamp(actionDetails['lampId'])
+            elif action == 'momentaryLamp':
+                mometaryLamp(actionDetails['lampId'], self.edges[switch])
 
 ########
 # MAIN #
 ########
 
-delay = 0.1
+delay = 0
 panel = PanelController()
 
 # TODO KLR: Set initial lamps based on absolute state. In particular, set on and off base on key switch.
