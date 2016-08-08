@@ -13,12 +13,20 @@ import copy
 from panel_config import actionMap
 import json
 
+# TODO KLR: These are for lamps. Move or keep?
+import pacdrive
+import logging
+
 # TODO KLR: Move this elsewhere...
 def mometaryLamp(lampId, state):
     print 'LAMP momentary: lamp={} state={}'.format(lampId, state)
+    pd.updatePin(4, 7, state)
+    # TODO KLR: pd is global for the moment
 
 def toggleLamp(lampId):
     print 'LAMP toggle: {}'.format(lampId)
+    pd.updatePin(4, 8, True)
+    # TODO KLR: pd is global for the moment
 
 
 class PanelController:
@@ -81,10 +89,18 @@ class PanelController:
 # MAIN #
 ########
 
-delay = 0
-panel = PanelController()
+logFormat = '%(levelname)s:%(asctime)s:PACDRIVE:%(module)s-%(lineno)d: %(message)s'
+logLevel = logging.INFO
+logging.basicConfig(format=logFormat, level=logLevel)
+
+# TODO KLR: I'm not sure this should be here directly. Move?
+pd = pacdrive.PacDrive(dryRun=False)
+pd.initializeAllPacDrives()
 
 # TODO KLR: Set initial lamps based on absolute state. In particular, set on and off base on key switch.
+
+delay = 0
+panel = PanelController()
 
 while True:
     panel.getDigitalState()
@@ -94,3 +110,7 @@ while True:
 
     if delay > 0:
         time.sleep(delay)
+
+
+
+
