@@ -20,12 +20,14 @@ import logging
 # TODO KLR: Move this elsewhere...
 def mometaryLamp(lampId, state):
     print 'LAMP momentary: lamp={} state={}'.format(lampId, state)
-    pd.updatePin(4, 7, state)
+    (board, pin) = pacdrive.mapLabelToBoardAndPin(lampId)
+    pd.updatePin(board, pin, state)
     # TODO KLR: pd is global for the moment
 
 def toggleLamp(lampId):
     print 'LAMP toggle: {}'.format(lampId)
-    pd.updatePin(4, 8, True)
+    (board, pin) = pacdrive.mapLabelToBoardAndPin(lampId)
+    pd.updatePin(board, pin, True)
     # TODO KLR: pd is global for the moment
 
 
@@ -97,11 +99,10 @@ logging.basicConfig(format=logFormat, level=logLevel)
 pd = pacdrive.PacDrive(dryRun=False)
 pd.initializeAllPacDrives()
 
-# TODO KLR: Set initial lamps based on absolute state. In particular, set on and off base on key switch.
-
 delay = 0
 panel = PanelController()
 
+# Assumes that S1 key switch is in the off state when program is started
 while True:
     panel.getDigitalState()
     panel.getAnalogState()
@@ -110,7 +111,3 @@ while True:
 
     if delay > 0:
         time.sleep(delay)
-
-
-
-
