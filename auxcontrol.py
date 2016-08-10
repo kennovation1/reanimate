@@ -18,18 +18,15 @@ import pacdrive
 import logging
 
 # TODO KLR: Move this elsewhere...
-def mometaryLamp(lampId, state):
-    print 'LAMP momentary: lamp={} state={}'.format(lampId, state)
-    (board, pin) = pacdrive.mapLabelToBoardAndPin(lampId)
-    pd.updatePin(board, pin, state)
+def setLamps(switch, action):
+    ''' Turn off the list of offLmaps and then turn on the list of onLamps '''
+    for lampId in action['offLamps']:
+        (board, pin) = pacdrive.mapLabelToBoardAndPin(lampId)
+        pd.updatePin(board, pin, False)
+    for lampId in action['onLamps']:
+        (board, pin) = pacdrive.mapLabelToBoardAndPin(lampId)
+        pd.updatePin(board, pin, True)
     # TODO KLR: pd is global for the moment
-
-def toggleLamp(lampId):
-    print 'LAMP toggle: {}'.format(lampId)
-    (board, pin) = pacdrive.mapLabelToBoardAndPin(lampId)
-    pd.updatePin(board, pin, True)
-    # TODO KLR: pd is global for the moment
-
 
 class PanelController:
     def __init__(self):
@@ -80,17 +77,24 @@ class PanelController:
         for switch in self.edges.keys():
             print 'Action for switch={} pressedNotRelease={} action={}'.format(switch,
                     self.edges[switch], json.dumps(actionMap[switch]))
+
+            if self.edges[switch]:
+                actionType = 'press_action'
+            else:
+                actionType = 'release_action'
+
             actionDetails = actionMap[switch]
-            action = actionDetails['action']
-            if action == 'toggleLamp':
-                toggleLamp(actionDetails['lampId'])
-            elif action == 'momentaryLamp':
-                mometaryLamp(actionDetails['lampId'], self.edges[switch])
+            action = actionDetails[actionType]
+            actionFunction = action['function']
+            if actionFunction == 'setLamps':
+                setLamps(switch, action)
+            else:
+                pass
+
 
 ########
 # MAIN #
 ########
-
 logFormat = '%(levelname)s:%(asctime)s:PACDRIVE:%(module)s-%(lineno)d: %(message)s'
 logLevel = logging.INFO
 logging.basicConfig(format=logFormat, level=logLevel)
