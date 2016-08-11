@@ -69,6 +69,35 @@ analogMap = {
         7: 'S1S2'
         }
 
+# Handy groups
+analogSwitches = ['A3','A4','S1','S2','S3']
+potentiometers = ['R1', 'R2', 'R3', 'R4']
+statusLamps = [
+            'A10-AB',
+            'A10-CD',
+            'A11-AB',
+            'A11-CD',
+            'A12-AB',
+            'A12-CD',
+            'A13-AB',
+            'A13-CD',
+            'A14-AB',
+            'A14-CD',
+            'A15-AB',
+            'A15-CD',
+            'A16-AB',
+            'A16-CD',
+            'A17-AC',
+            'A18-AB',
+            'A18-CD',
+            'A19-AB',
+            'A19-CD',
+            'A20-AB',
+            'A20-CD',
+            'A21-AB',
+            'A21-CD'
+            ]
+
 '''
 Define the actions to take when a button is pressed or released
 '''

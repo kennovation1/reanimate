@@ -174,6 +174,7 @@ def mapLabelToBoardAndPin(label):
             'A10-CD': (2,1),
             'A11-AB': (1,2),
             'A11-CD': (2,2),
+            'A12-AB': (1,3),
             'A12-CD': (2,3),
             'A13-AB': (1,4),
             'A13-CD': (2,4),

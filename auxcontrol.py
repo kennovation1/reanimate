@@ -10,7 +10,7 @@ import digital_in
 import analog_in
 import time
 import copy
-from panel_config import actionMap
+from panel_config import actionMap, potentiometers, analogSwitches, statusLamps
 import json
 
 # TODO KLR: These are for lamps. Move or keep?
@@ -30,7 +30,9 @@ def setLamps(switch, action):
 
 class PanelController:
     def __init__(self):
-        self.lastState = None
+        self.lastPrint = 0
+        self.lastDigitalState = None
+        self.lastAnalogState = None
         self.digitalState = {}
         self.analogState = {}
         self.edges = {}
@@ -49,7 +51,7 @@ class PanelController:
         self.analogState = self.analogIn.getState()
 
         # Copy the analog switch states to the digital state dict
-        for switch in ['A3','A4','S1','S2','S3']:
+        for switch in analogSwitches:
             self.digitalState[switch] = self.analogState[switch]
 
     def detectEdges(self):
@@ -62,11 +64,32 @@ class PanelController:
             False for a down edge (released)
         '''
         self.edges = {}
-        if self.lastState is not None:
+        if self.lastDigitalState is not None:
             for switch in self.digitalState.keys():
-                if self.digitalState[switch] != self.lastState[switch]:
+                if self.digitalState[switch] != self.lastDigitalState[switch]:
                     self.edges[switch] = self.digitalState[switch]
-        self.lastState = copy.copy(self.digitalState)
+        self.lastDigitalState = copy.copy(self.digitalState)
+
+    def printAnalogStateChanges(self):
+        '''
+        If an analog value has changed by more than thresh, print the potentiometer ID and the new value.
+        There are some issues with noise which may relate to how fast the ADC is sampled.
+        For now, apply a threshold to filter some and only print at a certain frequency. This is just
+        a debug function. When we have a real purpose, we may need to apply a moving window average or something
+        else.
+        '''
+        interval = 0.1
+        now = time.clock()
+        if now - self.lastPrint > interval:
+            threshold = 5
+            if self.lastAnalogState is not None:
+                for pot in potentiometers:
+                    current = self.analogState[pot]
+                    last = self.lastAnalogState[pot]
+                    if abs(current - last) > threshold:
+                        print '{}: {} ({})'.format(pot, current, current-last)
+            self.lastAnalogState = copy.copy(self.analogState)
+            self.lastPrint = now
 
     def doActions(self):
         '''
@@ -105,11 +128,15 @@ pd.initializeAllPacDrives()
 
 delay = 0
 panel = PanelController()
+for lampId in statusLamps:
+    (board, pin) = pacdrive.mapLabelToBoardAndPin(lampId)
+    pd.updatePin(board, pin, True)
 
 # Assumes that S1 key switch is in the off state when program is started
 while True:
     panel.getDigitalState()
     panel.getAnalogState()
+    panel.printAnalogStateChanges()
     panel.detectEdges()
     panel.doActions()
 

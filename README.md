@@ -21,6 +21,7 @@ See below for ssh key set up
 ```
 
 ## TODOs
+- [ ] Run auxcontrol.py to light all status lamps. Press A22 turns off some of the lamps on the release state. That is, setting A22-AB to False
 - [ ] Add a license file (what type?)
 - [ ] Create a sane directory structure and file naming
 - [ ] Create proper packages that are separated from application code 
