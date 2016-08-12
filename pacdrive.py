@@ -75,8 +75,8 @@ class PacDrive:
             self.state[board][0] |= lowByte 
             self.state[board][1] |= highByte
         else:
-            self.state[board][0] &= ~lowByte & 0x0f
-            self.state[board][1] &= ~highByte & 0x0f
+            self.state[board][0] &= ~lowByte & 0xff
+            self.state[board][1] &= ~highByte & 0xff
         self.updatePacDrive(board)
 
     def updatePattern(self, pattern):

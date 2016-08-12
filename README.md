@@ -21,7 +21,6 @@ See below for ssh key set up
 ```
 
 ## TODOs
-- [ ] Run auxcontrol.py to light all status lamps. Press A22 turns off some of the lamps on the release state. That is, setting A22-AB to False
 - [ ] Add a license file (what type?)
 - [ ] Create a sane directory structure and file naming
 - [ ] Create proper packages that are separated from application code 
@@ -211,3 +210,7 @@ DEVICE ID d209:1500 on Bus 001 Address 007 =================
        wMaxPacketSize   :    0x8 (8 bytes)
        bInterval        :    0xa
 ```
+
+### Midi
+sudo pip install python-midi
+
