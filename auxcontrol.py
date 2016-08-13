@@ -28,6 +28,15 @@ def setLamps(switch, action):
         pd.updatePin(board, pin, True)
     # TODO KLR: pd is global for the moment
 
+def toggleLamps(switch, action):
+    ''' Toggle the state of each lamp in the lamps list '''
+    for lampId in action['lamps']:
+        (board, pin) = pacdrive.mapLabelToBoardAndPin(lampId)
+        state = not pd.getLampState(board, pin)
+        pd.updatePin(board, pin, state)
+    # TODO KLR: pd is global for the moment
+
+
 class PanelController:
     def __init__(self):
         self.lastPrint = 0
@@ -111,9 +120,10 @@ class PanelController:
             actionFunction = action['function']
             if actionFunction == 'setLamps':
                 setLamps(switch, action)
+            elif actionFunction == 'toggleLamps':
+                toggleLamps(switch, action)
             else:
                 pass
-
 
 def setLampById(lampId, state):
     ''' TODO KLR: Put this elsewhere and refactor calls to mapLabel... '''
@@ -137,14 +147,14 @@ panel = PanelController()
 for lampId in statusLamps:
     setLampById(lampId, True)
 
+# A9 and A22 are stateful toggle switches
 setLampById('A9-CD', True)
 setLampById('A22-AB', True)
+
 setLampById('A5-AB', True)
 setLampById('A6-AB', True)
 setLampById('A7-AB', True)
 setLampById('A8-AB', True)
-
-
 
 # Assumes that S1 key switch is in the off state when program is started
 while True:

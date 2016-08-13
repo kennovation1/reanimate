@@ -48,6 +48,13 @@ class PacDrive:
     def getState(self):
         return self.state
 
+    def getLampState(board, pin):
+        lowByte = self.state[board][0]
+        highByte = self.state[board][1]
+
+        (lowByteMask, highByteMask) = mapPin(pin)
+        return lowByte & lowByteMask or highByte & highByteMask
+
     def initializeAllPacDrives(self):
         '''
         Iterate over all USB-attached PacDrives that are found and intialize each
