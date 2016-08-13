@@ -119,7 +119,7 @@ def mapChanAndNoteToLampId(chan, note):
     return noteToLampMap[note]
  
 def displayNote(chan, note, state):
-    print '{} {} {}'.format(state, chan, note)
+    #print '{} {} {}'.format(state, chan, note)
     lampId = mapChanAndNoteToLampId(chan, note)
     print lampId
     (board, pin) = pacdrive.mapLabelToBoardAndPin(lampId)
