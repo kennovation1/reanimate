@@ -115,6 +115,12 @@ class PanelController:
                 pass
 
 
+def setLampById(lampId, state):
+    ''' TODO KLR: Put this elsewhere and refactor calls to mapLabel... '''
+    (board, pin) = pacdrive.mapLabelToBoardAndPin(lampId)
+    pd.updatePin(board, pin, state)
+
+
 ########
 # MAIN #
 ########
@@ -129,8 +135,16 @@ pd.initializeAllPacDrives()
 delay = 0
 panel = PanelController()
 for lampId in statusLamps:
-    (board, pin) = pacdrive.mapLabelToBoardAndPin(lampId)
-    pd.updatePin(board, pin, True)
+    setLampById(lampId, True)
+
+setLampById('A9-CD', True)
+setLampById('A22-AB', True)
+setLampById('A5-AB', True)
+setLampById('A6-AB', True)
+setLampById('A7-AB', True)
+setLampById('A8-AB', True)
+
+
 
 # Assumes that S1 key switch is in the off state when program is started
 while True:
