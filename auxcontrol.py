@@ -12,6 +12,8 @@ import time
 import copy
 from panel_config import actionMap, potentiometers, analogSwitches, statusLamps
 import json
+from signal import *
+import sys
 
 # TODO KLR: These are for lamps. Move or keep?
 import pacdrive
@@ -130,6 +132,11 @@ def setLampById(lampId, state):
     (board, pin) = pacdrive.mapLabelToBoardAndPin(lampId)
     pd.updatePin(board, pin, state)
 
+def cleanExit(*args):
+    pd.updatePattern('ALL_OFF')
+    print 'Exiting on signal'
+    sys.exit(0)
+
 
 ########
 # MAIN #
@@ -141,6 +148,9 @@ logging.basicConfig(format=logFormat, level=logLevel)
 # TODO KLR: I'm not sure this should be here directly. Move?
 pd = pacdrive.PacDrive(dryRun=False)
 pd.initializeAllPacDrives()
+
+for sig in (SIGABRT, SIGINT, SIGQUIT, SIGTERM):
+    signal(sig, cleanExit)
 
 delay = 0
 panel = PanelController()

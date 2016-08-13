@@ -9,6 +9,7 @@ cat dialog.txt | python displaymidi.py # For testing
 import sys
 import pacdrive
 import logging
+import time
 
 def mapChanAndNoteToLampId(chan, note):
     ''' Key is note '''
@@ -147,3 +148,4 @@ for line in f:
         chan = line[32:33]
         note = int(line[40:43].split(',')[0])
         displayNote(chan, note, state)
+        # time.sleep(0.1) # For debugging only

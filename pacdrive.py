@@ -48,7 +48,7 @@ class PacDrive:
     def getState(self):
         return self.state
 
-    def getLampState(board, pin):
+    def getLampState(self, board, pin):
         lowByte = self.state[board][0]
         highByte = self.state[board][1]
 
