@@ -43,7 +43,10 @@ fluidsynth -a alsa -n -i /usr/share/sounds/sf2/FluidR3_GM.sf2 dialog.mid
 
 Consider overclocking RPi
 sudo raspi-config
+Selecting the menu to overlock says that this Pi cannot be overclocked. Perhaps Pi3's cannot be overclocked
 
+python start.py to play
+Used alsamixer to set gain to -14.12bB (setting of 50)
 
 
 

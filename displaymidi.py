@@ -4,7 +4,7 @@ and then use the following to read the text as stdin and parse it
 to catch Note commands and then drive the lamps corresponding to midi notes.
 
 aseqdump -p 14:0 | python -u displaymidi.py # -u is required to prevent stdin buffering
-aplaymidi -p 128:0 dialog.mid & timidity dialog.mid
+python playdialog.py
 
 cat dialog.txt | python displaymidi.py # For testing
 '''
