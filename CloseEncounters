@@ -33,6 +33,23 @@ aseqdump -p 14:0 # Do in a separate window
 aplaymidi -p 128:0 dialog.mid  & timidity dialog.mid
 Time for dialog.mid: real    3m9.397s
 
+Movie clip is about 1 minute shorter than midi file.
+
+sudo apt-get install fluidsynth
+sudo apt-get install fluid-soundfont-gs
+
+This doesn't sound that good. Timidity sounds better
+fluidsynth -a alsa -n -i /usr/share/sounds/sf2/FluidR3_GM.sf2 dialog.mid
+
+Consider overclocking RPi
+sudo raspi-config
+
+
+
+
+
+
+
 One of the mission commanders directs other audio specialists to communicate with the craft by playing the five mystical notes: "If everything is ready here on the dark side of the moon, play the five tones." The speakers and flashing lights play the familiar tonal sequence toward the ship. The large ship answers with a deep, bass vibration played in coordination with flashing lights around the lower rim of the vessel. There is a back-and-forth musical duet as the conversational light/sound show-contact continues:
 
 Give her six quavers, then pause.
