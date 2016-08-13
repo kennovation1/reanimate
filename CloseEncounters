@@ -1,0 +1,45 @@
+https://www.youtube.com/watch?v=S4PYI6TzqYk - trailer clip
+https://www.youtube.com/watch?v=g8_7r45wl2s - sheet music 
+http://ertekkereso.hu/doc/kantor/Midi/JWMIDI/default.htm - page contains midi files. Search for Close Encounters
+
+pip install python-midi
+https://github.com/vishnubob/python-midi
+
+man -k alsa
+
+Figure out how to run a midi sequencer. midiplay.py tries import midi.sequencer that fails
+dialog.mid is the file that I want.
+
+aplay -L # to see list of devices
+speaker-test # to test audio output of Pi. Defaults to pink noise
+speaker-test -f 440 -t sine # Play a tone
+aplaymidi -p 14:0 dialog.mid  # to play file. Does not seem to come out of audio jack though
+aseqdump -p 14:0 # to see real time set of events. Perhaps pipe stdout to my program as a simple integration. Some
+sample output:
+ 14:0   Note on                 1, note 36, velocity 110
+ 14:0   Note on                 1, note 37, velocity 110
+ 14:0   Note on                 2, note 37, velocity 106
+ 14:0   Note on                 3, note 37, velocity 110
+ 14:0   Note on                 2, note 36, velocity 99
+ 14:0   Note on                 3, note 36, velocity 110
+ 14:0   Note off                1, note 36, velocity 110
+
+aplay Apollo11-stay-no-stay.wav
+
+timitity dialog.mid
+
+To play a crude quality audio, with close enough concurrent midi stream
+aseqdump -p 14:0 # Do in a separate window
+aplaymidi -p 128:0 dialog.mid  & timidity dialog.mid
+
+One of the mission commanders directs other audio specialists to communicate with the craft by playing the five mystical notes: "If everything is ready here on the dark side of the moon, play the five tones." The speakers and flashing lights play the familiar tonal sequence toward the ship. The large ship answers with a deep, bass vibration played in coordination with flashing lights around the lower rim of the vessel. There is a back-and-forth musical duet as the conversational light/sound show-contact continues:
+
+Give her six quavers, then pause.
+She sent us four quavers, a group of five quavers, a group of four semi-quavers...
+What are we saying to each other?
+It seems they're trying to teach us a basic tonal vocabulary.
+It's the first day of school, fellas.
+Take everything from the lady. Follow her pattern note for note.
+
+Jill is drawn forward and hurries toward the runway and the ship. One of the audio specialists realizes that they are actually communicating (or interlocked) in a joyful mood with the alien ship: "We have a translation interlock on their audio signal. We're taking over this conversation now." After the notes of the ship slowly die out, a large cargo door in the belly of the ship slides open - a blinding, brilliant white light emanates from within. The panel slides down and becomes a ramp.
+
