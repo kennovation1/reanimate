@@ -3,7 +3,9 @@ Run the ALSA command aseqdump to print the midi commands to stdout
 and then use the following to read the text as stdin and parse it
 to catch Note commands and then drive the lamps corresponding to midi notes.
 
-aseqdump -p 14:0 | python displaymidi.py
+aseqdump -p 14:0 | python -u displaymidi.py # -u is required to prevent stdin buffering
+aplaymidi -p 128:0 dialog.mid & timidity dialog.mid
+
 cat dialog.txt | python displaymidi.py # For testing
 '''
 import sys
@@ -120,9 +122,9 @@ def mapChanAndNoteToLampId(chan, note):
     return noteToLampMap[note]
  
 def displayNote(chan, note, state):
-    #print '{} {} {}'.format(state, chan, note)
+    # print '{} {} {}'.format(state, chan, note)
     lampId = mapChanAndNoteToLampId(chan, note)
-    print lampId
+    print chan, note, lampId
     (board, pin) = pacdrive.mapLabelToBoardAndPin(lampId)
     pd.updatePin(board, pin, state)
 
@@ -137,9 +139,11 @@ logging.basicConfig(format=logFormat, level=logLevel)
 pd = pacdrive.PacDrive(dryRun=False)
 pd.initializeAllPacDrives()
 
-f = sys.stdin
+#f = sys.stdin
 #f = open('dialog.txt') # For testing
-for line in f:
+# for line in f:
+while True:
+    line = sys.stdin.readline()
     if line[8:12] == 'Note':
         if line[13:16] == 'off':
             state = False

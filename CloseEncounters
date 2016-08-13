@@ -31,6 +31,7 @@ timitity dialog.mid
 To play a crude quality audio, with close enough concurrent midi stream
 aseqdump -p 14:0 # Do in a separate window
 aplaymidi -p 128:0 dialog.mid  & timidity dialog.mid
+Time for dialog.mid: real    3m9.397s
 
 One of the mission commanders directs other audio specialists to communicate with the craft by playing the five mystical notes: "If everything is ready here on the dark side of the moon, play the five tones." The speakers and flashing lights play the familiar tonal sequence toward the ship. The large ship answers with a deep, bass vibration played in coordination with flashing lights around the lower rim of the vessel. There is a back-and-forth musical duet as the conversational light/sound show-contact continues:
 
