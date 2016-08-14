@@ -10,7 +10,7 @@ import digital_in
 import analog_in
 import time
 import copy
-from panel_config import actionMap, potentiometers, analogSwitches, statusLamps
+from panel_config import actionMap, potentiometers, analogSwitches, statusLamps, dcPowerMonitorLamps
 import json
 from signal import *
 import sys
@@ -154,8 +154,10 @@ for sig in (SIGABRT, SIGINT, SIGQUIT, SIGTERM):
 
 delay = 0
 panel = PanelController()
-for lampId in statusLamps:
+for lampId in dcPowerMonitorLamps:
     setLampById(lampId, True)
+
+setLampById('A1-AC', True)
 
 # A9 and A22 are stateful toggle switches
 setLampById('A9-CD', True)

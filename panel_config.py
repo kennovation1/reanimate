@@ -72,22 +72,7 @@ analogMap = {
 # Handy groups
 analogSwitches = ['A3','A4','S1','S2','S3']
 potentiometers = ['R1', 'R2', 'R3', 'R4']
-statusLamps = [
-            'A10-AB',
-            'A10-CD',
-            'A11-AB',
-            'A11-CD',
-            'A12-AB',
-            'A12-CD',
-            'A13-AB',
-            'A13-CD',
-            'A14-AB',
-            'A14-CD',
-            'A15-AB',
-            'A15-CD',
-            'A16-AB',
-            'A16-CD',
-            'A17-AC',
+dcPowerMonitorLamps = [
             'A18-AB',
             'A18-CD',
             'A19-AB',
@@ -97,6 +82,26 @@ statusLamps = [
             'A21-AB',
             'A21-CD'
             ]
+systemFaultLamps = [
+            'A10-AB',
+            'A10-CD',
+            'A11-AB',
+            'A11-CD',
+            'A12-AB',
+            'A12-CD',
+            'A13-AB',
+            'A13-CD',
+            'A14-AB',
+            'A14-CD'
+            ]
+interlockFaultLamps = [
+            'A15-AB',
+            'A15-CD',
+            'A16-AB',
+            'A16-CD',
+            'A17-AC'
+            ]
+statusLamps = dcPowerMonitorLamps + systemFaultLamps + interlockFaultLamps 
 
 '''
 Define the actions to take when a button is pressed or released
@@ -105,20 +110,24 @@ spiralRadius = ['A33-AC', 'A34-AC', 'A35-AC', 'A36-AC']
 elevationEliptical = ['A23-AC', 'A24-AC', 'A25-AC', 'A26-AC', 'A27-AC']
 azimuthEliptical = ['A28-AC', 'A29-AC', 'A30-AC', 'A31-AC', 'A32-AC']
 actionMap = {
-        'S1': {"press_action": {"function": "setLamps", "offLamps": [], "onLamps": ["A2-AC"]},
-               "release_action": {"function": "setLamps", "offLamps": ["A2-AC"], "onLamps": []}},
-        'S2': {"press_action": {"function": "setLamps", "offLamps": [], "onLamps": ["A1-AC"]}, 
-               "release_action": {"function": "setLamps", "offLamps": ["A1-AC"], "onLamps": []}},
+        'S1': {"press_action": {"function": "setLamps", "offLamps": ["A1-AC"], "onLamps": ["A2-AC"]},
+               "release_action": {"function": "setLamps", "offLamps": ["A2-AC"], "onLamps": ["A1-AC"]}},
+
+        'S2': {"press_action": {"function": "setLamps", "offLamps": ["A2-AC"], "onLamps": ["A1-AC"]},
+               "release_action": {"function": "noop"}},
+
         'S3': {"press_action": {"function": "setLamps", "offLamps": [], "onLamps": ["DS1-Negative"]}, 
                "release_action": {"function": "setLamps", "offLamps": ["DS1-Negative"], "onLamps": []}},
-        'A1': {"press_action": {"function": "setLamps", "offLamps": [], "onLamps": ["A1-AC"]}, 
-               "release_action": {"function": "setLamps", "offLamps": ["A1-AC"], "onLamps": []}},
-        'A2': {"press_action": {"function": "setLamps", "offLamps": [], "onLamps": ["A2-AC"]}, 
-               "release_action": {"function": "setLamps", "offLamps": ["A2-AC"], "onLamps": []}},
-        'A3': {"press_action": {"function": "setLamps", "offLamps": [], "onLamps": ["A3-AC"]}, 
-               "release_action": {"function": "setLamps", "offLamps": ["A3-AC"], "onLamps": []}},
-        'A4': {"press_action": {"function": "setLamps", "offLamps": [], "onLamps": ["A4-AC"]}, 
-               "release_action": {"function": "setLamps", "offLamps": ["A4-AC"], "onLamps": []}},
+
+        'A1': {"press_action": {"function": "setLamps", "offLamps": ["A2-AC"], "onLamps": ["A1-AC"]}, 
+               "release_action": {"function": "noop"}},
+        'A2': {"press_action": {"function": "setLamps", "offLamps": ["A1-AC"], "onLamps": ["A2-AC"]}, 
+               "release_action": {"function": "noop"}},
+
+        'A3': {"press_action": {"function": "setLamps", "offLamps": [], "onLamps": ["A3-AC"]+systemFaultLamps}, 
+               "release_action": {"function": "setLamps", "offLamps": ["A3-AC"]+systemFaultLamps, "onLamps": []}},
+        'A4': {"press_action": {"function": "setLamps", "offLamps": [], "onLamps": ["A4-AC"]+interlockFaultLamps}, 
+               "release_action": {"function": "setLamps", "offLamps": ["A4-AC"]+interlockFaultLamps, "onLamps": []}},
 
         'A5': {"press_action": {"function": "toggleLamps", "lamps": ["A5-AB", "A5-CD"]}, 
                "release_action": {"function": "noop"}},
