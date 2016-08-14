@@ -81,13 +81,42 @@ class PanelController:
                     self.edges[switch] = self.digitalState[switch]
         self.lastDigitalState = copy.copy(self.digitalState)
 
-    def printAnalogStateChanges(self):
+    def doPotAction(self, pot, current, delta):
+        '''
+        Just a crude function to show that pots can affect something.
+        For the given pot, first turn off all assoiciate lamps and then
+        turn on the number of lamps in its list proportional to the pot value.
+        '''
+        lampMap = {
+                'R1': ['off', 'A10-AB', 'A10-CD', 'A11-AB', 'A11-CD'],
+                'R2': ['off', 'A12-AB', 'A12-CD', 'A13-AB', 'A13-CD'],
+                'R3': ['off', 'A14-AB', 'A14-CD', 'A15-AB', 'A15-CD'],
+                'R4': ['off', 'A16-AB', 'A16-CD', 'A17-AC']
+                }
+        for lampId in lampMap[pot]:
+            if lampId != 'off':
+                setLampById(lampId, False)
+
+        lamps = len(lampMap[pot])
+        bandSize = 1024/lamps
+        maxLamp = current/bandSize
+        if maxLamp >= lamps:
+            maxLamp = lamps - 1
+
+        for lampIdIndex in range(maxLamp+1):
+            lampId = lampMap[pot][lampIdIndex]
+            if lampId != 'off':
+                setLampById(lampId, True)
+
+    def handleAnalogStateChanges(self):
         '''
         If an analog value has changed by more than thresh, print the potentiometer ID and the new value.
         There are some issues with noise which may relate to how fast the ADC is sampled.
         For now, apply a threshold to filter some and only print at a certain frequency. This is just
         a debug function. When we have a real purpose, we may need to apply a moving window average or something
         else.
+
+        This was originally just a print function. Now called a handler each time something is printed.
         '''
         interval = 0.1
         now = time.clock()
@@ -99,6 +128,7 @@ class PanelController:
                     last = self.lastAnalogState[pot]
                     if abs(current - last) > threshold:
                         print '{}: {} ({})'.format(pot, current, current-last)
+                        self.doPotAction(pot, current, current-last)
             self.lastAnalogState = copy.copy(self.analogState)
             self.lastPrint = now
 
@@ -175,7 +205,7 @@ setLampById('A8-AB', True)
 while True:
     panel.getDigitalState()
     panel.getAnalogState()
-    panel.printAnalogStateChanges()
+    panel.handleAnalogStateChanges()
     panel.detectEdges()
     panel.doActions()
 
