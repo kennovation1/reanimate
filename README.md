@@ -33,16 +33,11 @@ See below for ssh key set up
 ```
 
 ## TODOs
-- [ ] Use pots to control flash or chase rate on some lamps or warning lamps in auxcontrol.py
-- [ ] Add a license file (what type?)
-- [ ] Get linear power supply for about 4 amps or gang my current power supplies in parallel
-- [ ] Better sync midi to lamps. If I had more time, I'd like to have a less kludgy way of playing midi audio and driving displaymidi.py so that the audio and lamps are properly synched.
-- [ ] Clean up some of the lamp and pacdrive code factoring
-- [ ] Add action handler type to execute a subprocess.popen() so that I can execute arbitrary code?
-- [ ] Make video and stills (and put in album) and share with Mark C, Bobby E, etc.
-- [ ] Share videos with Mark, Bobby, work
-- [ ] Make limit cable for legs
-- [ ] Add feet to legs
+- [ ] (defer) Add a license file (what type?)
+- [ ] (defer) Get linear power supply for about 4 amps or gang my current power supplies in parallel
+- [ ] (defer) Better sync midi to lamps. If I had more time, I'd like to have a less kludgy way of playing midi audio and driving displaymidi.py so that the audio and lamps are properly synched.
+- [ ] (defer) Clean up some of the lamp and pacdrive code factoring
+- [ ] (defer) Add action handler type to execute a subprocess.popen() so that I can execute arbitrary code?
 
 ### RPi setup
 * Installed NOOBS to 16 GB microSD card

@@ -4,6 +4,9 @@ http://ertekkereso.hu/doc/kantor/Midi/JWMIDI/default.htm - page contains midi fi
 
 sudo pip install python-midi
 https://github.com/vishnubob/python-midi
+>>> import midi
+>>> pattern = midi.read_midifile('dialog.mid')
+>>> print pattern
 
 man -k alsa
 
