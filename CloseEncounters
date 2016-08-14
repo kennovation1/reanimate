@@ -2,7 +2,7 @@ https://www.youtube.com/watch?v=S4PYI6TzqYk - trailer clip
 https://www.youtube.com/watch?v=g8_7r45wl2s - sheet music 
 http://ertekkereso.hu/doc/kantor/Midi/JWMIDI/default.htm - page contains midi files. Search for Close Encounters
 
-pip install python-midi
+sudo pip install python-midi
 https://github.com/vishnubob/python-midi
 
 man -k alsa

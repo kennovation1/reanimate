@@ -1,14 +1,26 @@
 # Raw notes for now
 
 ## Key files
-* auxcontrol.py - Main application to operate Auxiliary Control panel
-* digit_in.py - Used by auxcontrol.py. Run by itself tests all switch inputs
-* analog_in.py - Used by auxcontrol.py. Run by itself tests all analog inputs (pots and switches using ADC)
+* Operating the panel
+  * auxcontrol.py - Main application to operate Auxiliary Control panel. Usage: python auxcontrol.py
+    * panel_config.py - Describes the specifics of the Auxiliary Control Panel and the actions used by auxcontrol.py
+    * digit_in.py - Used by auxcontrol.py. Run by itself tests all switch inputs
+    * analog_in.py - Used by auxcontrol.py. Run by itself tests all analog inputs (pots and switches using ADC)
+    * pacdrive.py - Driver layer for PacDrives to control lamps. Contains higher level functions to manage the state and mappings for the panel. Ideally these higher level functions should be factored out to their own module, but I've run out of time on this project and this is good enough for a weekend hack for now. If I ever use PacDrives in another project, then I should refactor appropriately (which will require changes to auxcontrol.py, testaux.py, displaymidi.py).
 
-Old test files:
-* testaux.py, pacdrive.py - Drives lamps
-* readsw.py  - Reads all switches wired to RPi GPIO
-* spitest.py - Reads ADC for R1-R4, A3, A4, S1, S2, S3
+* Playing the Close Encounters of the Third Kind dialog
+  * displaymidi.py - Reads MIDI events from aseqdump and drives lamps on panel in response. See header for usage.
+    * Usage: aseqdump -p 14:0 | python -u displaymidi.py (in a separate window)
+  * playdialog.py - Starts playing dialog.mid audio and MIDI stream and tries to keep sync between the two.
+    * Usage: python playdialog.py (after displaymidi.py has been started)
+
+* testaux.py - Debug utiity to manipulate lamps on the panel. Usage: python testaux.py
+
+* Other files
+  * colors.py - utility ASCII color codes
+  * printAllUSBInfo.py - utility to print info about all connected USB devices
+  * spitest.py - Originally used to debug the SPI interface and the ADC. Replaced by analog_in.py
+  * readsw.py - Originally used to debug reading the RPi GPIO and reading switch states. Replaced by digitial_in.py
 
 # Git notes:
 ```
@@ -21,10 +33,16 @@ See below for ssh key set up
 ```
 
 ## TODOs
+- [ ] Use pots to control flash or chase rate on some lamps or warning lamps in auxcontrol.py
 - [ ] Add a license file (what type?)
-- [ ] Create a sane directory structure and file naming
-- [ ] Create proper packages that are separated from application code 
-- [ ] Add EXPECTED_BOARDS in addition to MAX_BOARDS?
+- [ ] Get linear power supply for about 4 amps or gang my current power supplies in parallel
+- [ ] Better sync midi to lamps. If I had more time, I'd like to have a less kludgy way of playing midi audio and driving displaymidi.py so that the audio and lamps are properly synched.
+- [ ] Clean up some of the lamp and pacdrive code factoring
+- [ ] Add action handler type to execute a subprocess.popen() so that I can execute arbitrary code?
+- [ ] Make video and stills (and put in album) and share with Mark C, Bobby E, etc.
+- [ ] Share videos with Mark, Bobby, work
+- [ ] Make limit cable for legs
+- [ ] Add feet to legs
 
 ### RPi setup
 * Installed NOOBS to 16 GB microSD card
@@ -77,6 +95,7 @@ alias s='more'
 alias j='jobs'
 alias hd='hexdump -C'
 alias lp='ls -FC *.py'
+alias gs='git status'
 
 Add to ~/.vimrc:
 syntax on
@@ -211,5 +230,5 @@ DEVICE ID d209:1500 on Bus 001 Address 007 =================
 ```
 
 ### Midi
-sudo pip install python-midi
+I did install things, but ended up only needing preinstalled software. See CloseEncounters for various notes.
 
