@@ -101,6 +101,9 @@ statusLamps = [
 '''
 Define the actions to take when a button is pressed or released
 '''
+spiralRadius = ['A33-AC', 'A34-AC', 'A35-AC', 'A36-AC']
+elevationEliptical = ['A23-AC', 'A24-AC', 'A25-AC', 'A26-AC', 'A27-AC']
+azimuthEliptical = ['A28-AC', 'A29-AC', 'A30-AC', 'A31-AC', 'A32-AC']
 actionMap = {
         'S1': {"press_action": {"function": "setLamps", "offLamps": [], "onLamps": ["A2-AC"]},
                "release_action": {"function": "setLamps", "offLamps": ["A2-AC"], "onLamps": []}},
@@ -116,6 +119,7 @@ actionMap = {
                "release_action": {"function": "setLamps", "offLamps": ["A3-AC"], "onLamps": []}},
         'A4': {"press_action": {"function": "setLamps", "offLamps": [], "onLamps": ["A4-AC"]}, 
                "release_action": {"function": "setLamps", "offLamps": ["A4-AC"], "onLamps": []}},
+
         'A5': {"press_action": {"function": "toggleLamps", "lamps": ["A5-AB", "A5-CD"]}, 
                "release_action": {"function": "noop"}},
         'A6': {"press_action": {"function": "toggleLamps", "lamps": ["A6-AB", "A6-CD"]}, 
@@ -124,38 +128,56 @@ actionMap = {
                "release_action": {"function": "noop"}},
         'A8': {"press_action": {"function": "toggleLamps", "lamps": ["A8-AB", "A8-CD"]}, 
                "release_action": {"function": "noop"}},
+
         'A9': {"press_action": {"function": "toggleLamps", "lamps": ["A9-AB", "A9-CD"]}, 
                "release_action": {"function": "toggleLamps", "lamps": ["A9-AB", "A9-CD"]}}, 
         'A22': {"press_action": {"function": "toggleLamps", "lamps": ["A22-AB", "A22-CD"]}, 
                "release_action": {"function": "toggleLamps", "lamps": ["A22-AB", "A22-CD"]}}, 
-        'A23': {"press_action": {"function": "setLamps", "offLamps": [], "onLamps": ["A23-AC"]}, 
-               "release_action": {"function": "setLamps", "offLamps": ["A23-AC"], "onLamps": []}},
-        'A24': {"press_action": {"function": "setLamps", "offLamps": [], "onLamps": ["A24-AC"]}, 
-               "release_action": {"function": "setLamps", "offLamps": ["A24-AC"], "onLamps": []}},
-        'A25': {"press_action": {"function": "setLamps", "offLamps": [], "onLamps": ["A25-AC"]}, 
-               "release_action": {"function": "setLamps", "offLamps": ["A25-AC"], "onLamps": []}},
-        'A26': {"press_action": {"function": "setLamps", "offLamps": [], "onLamps": ["A26-AC"]}, 
-               "release_action": {"function": "setLamps", "offLamps": ["A26-AC"], "onLamps": []}},
-        'A27': {"press_action": {"function": "setLamps", "offLamps": [], "onLamps": ["A27-AC"]}, 
-               "release_action": {"function": "setLamps", "offLamps": ["A27-AC"], "onLamps": []}},
-        'A28': {"press_action": {"function": "setLamps", "offLamps": [], "onLamps": ["A28-AC"]}, 
-               "release_action": {"function": "setLamps", "offLamps": ["A28-AC"], "onLamps": []}},
-        'A29': {"press_action": {"function": "setLamps", "offLamps": [], "onLamps": ["A29-AC"]}, 
-               "release_action": {"function": "setLamps", "offLamps": ["A29-AC"], "onLamps": []}},
-        'A30': {"press_action": {"function": "setLamps", "offLamps": [], "onLamps": ["A30-AC"]}, 
-               "release_action": {"function": "setLamps", "offLamps": ["A30-AC"], "onLamps": []}},
-        'A31': {"press_action": {"function": "setLamps", "offLamps": [], "onLamps": ["A31-AC"]}, 
-               "release_action": {"function": "setLamps", "offLamps": ["A31-AC"], "onLamps": []}},
-        'A32': {"press_action": {"function": "setLamps", "offLamps": [], "onLamps": ["A32-AC"]}, 
-               "release_action": {"function": "setLamps", "offLamps": ["A32-AC"], "onLamps": []}},
-        'A33': {"press_action": {"function": "setLamps", "offLamps": [], "onLamps": ["A33-AC"]}, 
-               "release_action": {"function": "setLamps", "offLamps": ["A33-AC"], "onLamps": []}},
-        'A34': {"press_action": {"function": "setLamps", "offLamps": [], "onLamps": ["A34-AC"]}, 
-               "release_action": {"function": "setLamps", "offLamps": ["A34-AC"], "onLamps": []}},
-        'A35': {"press_action": {"function": "setLamps", "offLamps": [], "onLamps": ["A35-AC"]}, 
-               "release_action": {"function": "setLamps", "offLamps": ["A35-AC"], "onLamps": []}},
-        'A36': {"press_action": {"function": "setLamps", "offLamps": [], "onLamps": ["A36-AC"]}, 
-               "release_action": {"function": "setLamps", "offLamps": ["A36-AC"], "onLamps": []}}
+
+        'A23': {"press_action": 
+                {"function": "setLamps", "offLamps": elevationEliptical, "onLamps": ["A23-AC"] }, 
+               "release_action": {"function": "noop",}},
+        'A24': {"press_action": 
+                {"function": "setLamps", "offLamps": elevationEliptical, "onLamps": ["A24-AC"] }, 
+               "release_action": {"function": "noop",}},
+        'A25': {"press_action": 
+                {"function": "setLamps", "offLamps": elevationEliptical, "onLamps": ["A25-AC"] }, 
+               "release_action": {"function": "noop",}},
+        'A26': {"press_action": 
+                {"function": "setLamps", "offLamps": elevationEliptical, "onLamps": ["A26-AC"] }, 
+               "release_action": {"function": "noop",}},
+        'A27': {"press_action": 
+                {"function": "setLamps", "offLamps": elevationEliptical, "onLamps": ["A27-AC"] }, 
+               "release_action": {"function": "noop",}},
+
+        'A28': {"press_action": 
+                {"function": "setLamps", "offLamps": azimuthEliptical, "onLamps": ["A28-AC"] }, 
+               "release_action": {"function": "noop",}},
+        'A29': {"press_action": 
+                {"function": "setLamps", "offLamps": azimuthEliptical, "onLamps": ["A29-AC"] }, 
+               "release_action": {"function": "noop",}},
+        'A30': {"press_action": 
+                {"function": "setLamps", "offLamps": azimuthEliptical, "onLamps": ["A30-AC"] }, 
+               "release_action": {"function": "noop",}},
+        'A31': {"press_action": 
+                {"function": "setLamps", "offLamps": azimuthEliptical, "onLamps": ["A31-AC"] }, 
+               "release_action": {"function": "noop",}},
+        'A32': {"press_action": 
+                {"function": "setLamps", "offLamps": azimuthEliptical, "onLamps": ["A32-AC"] }, 
+               "release_action": {"function": "noop",}},
+
+        'A33': {"press_action": 
+                {"function": "setLamps", "offLamps": spiralRadius, "onLamps": ["A33-AC"] }, 
+               "release_action": {"function": "noop",}},
+        'A34': {"press_action": 
+                {"function": "setLamps", "offLamps": spiralRadius, "onLamps": ["A34-AC"] }, 
+               "release_action": {"function": "noop",}},
+        'A35': {"press_action": 
+                {"function": "setLamps", "offLamps": spiralRadius, "onLamps": ["A35-AC"] }, 
+               "release_action": {"function": "noop",}},
+        'A36': {"press_action": 
+                {"function": "setLamps", "offLamps": spiralRadius, "onLamps": ["A36-AC"] }, 
+               "release_action": {"function": "noop",}}
         }
 
 ########

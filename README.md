@@ -25,7 +25,6 @@ See below for ssh key set up
 - [ ] Create a sane directory structure and file naming
 - [ ] Create proper packages that are separated from application code 
 - [ ] Add EXPECTED_BOARDS in addition to MAX_BOARDS?
-- [ ] Put mapping into a json file
 
 ### RPi setup
 * Installed NOOBS to 16 GB microSD card

@@ -160,6 +160,9 @@ for lampId in statusLamps:
 # A9 and A22 are stateful toggle switches
 setLampById('A9-CD', True)
 setLampById('A22-AB', True)
+setLampById('A23-AC', True)
+setLampById('A28-AC', True)
+setLampById('A33-AC', True)
 
 setLampById('A5-AB', True)
 setLampById('A6-AB', True)

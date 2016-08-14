@@ -26,7 +26,7 @@ sample output:
 
 aplay Apollo11-stay-no-stay.wav
 
-timitity dialog.mid
+timidity dialog.mid
 
 To play a crude quality audio, with close enough concurrent midi stream
 aseqdump -p 14:0 # Do in a separate window
