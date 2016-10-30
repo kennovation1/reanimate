@@ -33,6 +33,7 @@ See below for ssh key set up
 ```
 
 ## TODOs
+- [ ] Buzzer isn't quite working anymore. Peeps once when activated and that's all. Use testaux.py with board 4 and pin 16
 - [ ] (defer) Add a license file (what type?)
 - [ ] (defer) Get linear power supply for about 4 amps or gang my current power supplies in parallel
 - [ ] (defer) Better sync midi to lamps. If I had more time, I'd like to have a less kludgy way of playing midi audio and driving displaymidi.py so that the audio and lamps are properly synched.
@@ -40,26 +41,42 @@ See below for ssh key set up
 - [ ] (defer) Add action handler type to execute a subprocess.popen() so that I can execute arbitrary code?
 
 ### RPi setup
-* Installed NOOBS to 16 GB microSD card
-* Installed Raspbian to RPi3
+* Install NOOBS to 16 GB microSD card (current version is v2.0.0)
+  * https://www.raspberrypi.org/downloads/noobs/ Download zip file
+  * Unzip downloaded file
+  * In resulting folder follow instructions in INSTRUCTIONS-README.txt to format and load SD card
+* Insert SD card to RPi3; connect USB mouse, USB keyboard, HDMI cable to TV (set TV source). Apply power.
+* Via NOOBS UI: Set Language to US (keyboard should be US too)
+* Via NOOBS UI: Install Raspbian to RPi3
+* Boots to Raspbian
 * Set up WiFi UI via menu (top bar)
-* Set up preferences (keyboard, timezone, etc.) via UI menu
-* ifconfig to find IP
+* Set up preferences (keyboard, timezone, etc.) via UI menu: Rasbperry > Preferences > Raspberry Pi Configuration
+  * set hostname
+  * Localization: set various...
+* ifconfig to find IP or mouse over wifi icon on top menu bar
 
 #### STATIC IP
-To set a static IP, I went to the router's advanced setting, IP address distribution and found
-device for RPi and clicked box that said make this static. Therefore the address is statically 
-192.168.1.13 now. No need to do anything else. One router screen now shows static, but another shows
-dynamic. I'm not sure if that's a problem or just a refresh issue.
+Login to router at 192.168.1.1
+Advanced > IP Address Distribution > Connection List > Click on row for new device > Check Static Leave box
+Advanced > IP Address Distribution > Connection List > On row for new device, on right, click Edit > set new name
 
+Antenna Control RPi:
 ssh pi@192.168.1.13
 password: raspberry
+
+Video Panel 1 RPi:
+ssh pi@192.168.1.12
+password: raspberry
+
 
 ### General Linux environment set up
 ```
 On Mac:
 ssh-keygen -t rsa
 cp id_rsa.pub authorized_keys
+Something is wrong with these instructions since I don't say anything about
+setting up the .ssh files on the RPi...
+
 Copy private file to Mac ~/.ssh/rpi
 chmod 400 rpi
 From Mac: ssh -i ~/.ssh/rpi pi@192.168.1.13
@@ -79,6 +96,10 @@ git init
 On Mac, add to .bash_profile:
 alias sshrpi='ssh -i ~/.ssh/rpi pi@192.168.1.13'
 alias scprpi='scp -i ~/.ssh/rpi'
+
+Or for subsequent RPis...
+From home dir:
+git clone https://github.com/kennovation1/reanimate.git
 
 On RPi added to .bashrc:
 alias l='ls -FC'
