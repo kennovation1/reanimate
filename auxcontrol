@@ -1,0 +1,49 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          auxcontrol
+# Required-Start:    $local_fs
+# Required-Stop:
+# Should-Start:
+# Default-Start:     3 4 5
+# Default-Stop:
+# Short-Description: Starts process to run the auxcontrol instrument panel
+# Description:       Starts process to run the auxcontrol instrument panel.
+### END INIT INFO
+
+##########################################################
+# Install this script as follows:
+#   sudo cp auxcontrol /etc/init.d
+#   sudo update-rc.d auxcontrol defaults
+#
+# Stop is not implemented and 
+# there is no checking to make sure not already started
+##########################################################
+
+do_start () {
+        /home/pi/reanimate/auxcontrol_run.sh
+}
+
+
+case "$1" in
+  start|"")
+        do_start
+        ;;
+  restart|reload|force-reload)
+        echo "Error: argument '$1' not supported" >&2
+        exit 3
+        ;;
+  stop)
+        echo "Error: argument '$1' not supported" >&2
+        exit 3
+        ;;
+  status)
+        echo "Error: argument '$1' not supported" >&2
+        exit 3
+        ;;
+  *)
+        echo "Usage: mercury [start|stop|status]" >&2
+        exit 3
+        ;;
+esac
+
+:
